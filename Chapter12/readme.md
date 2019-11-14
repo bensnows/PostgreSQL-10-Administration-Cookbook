@@ -365,11 +365,22 @@ step 8 Stop the backup
 psql -c "select pg_stop_backup(), current_timestamp"
 ```
 
+
+One more step 
+#### The base.tar should move to $PGDATA and unzipped
+'''bash
+-bash-4.2$ rm -rf $PGDATA
+-bash-4.2$ cp base.tar $PGDATA
+-bash-4.2$ cd $PGDATA
+-bash-4.2$ tar -xvf base.tar
+'''
+
+
 Step 9. Set the ***recovery.conf*** parameters on the standby. Note that   ***primary_conninfo*** must not specify a database name, though it can contain any other PostgreSQL connection option. Also, note that all options in  ***recovery.conf*** are enclosed in quotes, whereas the ***postgresql.conf*** parameters need not be:
 
 ```bash
 standby_mode = 'on' 
-primary_conninfo = 'host=alpha user=repuser' 
+primary_conninfo = 'host=100.100.100.101 user=repuser' 
 trigger_file = '/tmp/postgresql.trigger.5432'
 ```
 Step 10. Start the standby server.
